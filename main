@@ -1,394 +1,637 @@
-import { useState } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Special Education Support Dashboard</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-export default function ComprehensiveDashboard() {
-  const [activeCategory, setActiveCategory] = useState('LD');
-  const [activeSection, setActiveSection] = useState('core');
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      color: #333;
+      padding: 20px;
+    }
 
-  const categories = {
-    'LD': {
-      name: 'Learning Disabilities',
-      color: 'bg-blue-100',
-      headerColor: 'bg-blue-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Specific difficulties in academic areas despite average/above-average intelligence',
-          'Challenges with processing, acquiring knowledge, and skill generalization',
-          'Various types including dyslexia, dysgraphia, and dyscalculia',
-          'Impacts academic performance and may affect self-esteem',
-          'Identification through RTI or comprehensive evaluation'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Direct instruction with structured, systematic approach',
-          'Learning strategies instruction for independence',
-          'Differentiated instruction across content, process, and product',
-          'Multi-sensory teaching approaches',
-          'Regular progress monitoring and assessment'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Technology',
-        points: [
-          'Extended time for tests and assignments',
-          'Text-to-speech and audiobook resources',
-          'Graphic organizers and visual aids',
-          'Word processing with spelling/grammar tools',
-          'Modified assignments and alternative formats'
-        ]
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .header {
+      background-color: #e5e7eb;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #6b7280;
+    }
+
+    /* Categories */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .category-button {
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .category-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-button.active {
+      outline: 3px solid #000;
+    }
+
+    .category-button span {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .category-button small {
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+
+    /* Sections */
+    .sections {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .section-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background-color: #e5e7eb;
+      cursor: pointer;
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .section-button:hover {
+      background-color: #d1d5db;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-button.active {
+      background-color: #9ca3af;
+      color: #fff;
+      outline: 2px solid #000;
+    }
+
+    /* Content Display */
+    .content {
+      background-color: #f3f4f6;
+      padding: 20px;
+      border-radius: 8px;
+      min-height: 200px;
+      transition: background-color 0.3s;
+    }
+
+    .content h2 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+
+    .content ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .content li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    /* Universal Support Principles */
+    .principles {
+      background-color: #e5e7eb;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    .principles h3 {
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .principle {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .principle p {
+      margin-top: 5px;
+      color: #4b5563;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 600px) {
+      .category-button {
+        padding: 10px;
       }
-    },
-    'EBD': {
-      name: 'Emotional/Behavioral Disorders',
-      color: 'bg-green-100',
-      headerColor: 'bg-green-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Range of disorders including anxiety, mood, and conduct disorders',
-          'Impacts learning and social relationships significantly',
-          'Both externalizing and internalizing behaviors',
-          'Affects ability to build relationships and maintain emotional stability',
-          'Five key characteristics defined by IDEA'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Positive behavior support systems',
-          'De-escalation and crisis intervention techniques',
-          'Social skills instruction and modeling',
-          'Clear expectations and consistent routines',
-          'Token economy and reinforcement systems'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Quiet spaces for de-escalation',
-          'Behavioral intervention plans',
-          'Regular breaks and movement opportunities',
-          'Crisis planning and safety procedures',
-          'Social-emotional learning support'
-        ]
-      }
-    },
-    'ADHD': {
-      name: 'ADHD',
-      color: 'bg-yellow-100',
-      headerColor: 'bg-yellow-600',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Three presentations: inattentive, hyperactive-impulsive, and combined',
-          'Impacts executive functioning and self-regulation',
-          'Affects attention, organization, and impulse control',
-          'Challenges with working memory and planning',
-          'Requires comprehensive assessment approach'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Breaking tasks into smaller steps',
-          'Using visual cues and reminders',
-          'Providing frequent breaks',
-          'Teaching organizational strategies',
-          'Implementing behavior management techniques'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Preferential seating arrangements',
-          'Extended time for tasks',
-          'Organizational tools and checklists',
-          'Reduced workload when appropriate',
-          'Technology for focus and organization'
-        ]
-      }
-    },
-    'ASD': {
-      name: 'Autism Spectrum Disorder',
-      color: 'bg-purple-100',
-      headerColor: 'bg-purple-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Persistent deficits in social communication and interaction',
-          'Restricted, repetitive patterns of behavior or interests',
-          'Sensory processing differences',
-          'Variable presentation and support needs',
-          'Early intervention importance'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Structured teaching approaches',
-          'Visual supports and schedules',
-          'Social stories and explicit social instruction',
-          'Applied Behavior Analysis techniques',
-          'Sensory-conscious environment'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Visual schedules and supports',
-          'Sensory breaks and tools',
-          'Communication aids and AAC',
-          'Social skills support',
-          'Environmental modifications'
-        ]
-      }
-    },
-    'TBI': {
-      name: 'Traumatic Brain Injury',
-      color: 'bg-red-100',
-      headerColor: 'bg-red-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Acquired injury affecting educational performance',
-          'Variable impact on cognitive, physical, and behavioral functioning',
-          'May affect memory, attention, and executive functions',
-          'Emotional regulation challenges',
-          'Individualized recovery patterns'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Cognitive rehabilitation strategies',
-          'Memory and attention supports',
-          'Executive function scaffolding',
-          'Behavioral support systems',
-          'Collaborative problem-solving'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Extended time and reduced workload',
-          'Memory aids and organizational tools',
-          'Rest breaks when needed',
-          'Environmental modifications',
-          'Assistive technology support'
-        ]
-      }
-    },
-    'GT': {
-      name: 'Gifted and Talented',
-      color: 'bg-indigo-100',
-      headerColor: 'bg-indigo-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'High abilities in one or more areas',
-          'Advanced learning capabilities',
-          'Complex interaction of nature and nurture',
-          'Varied manifestations of giftedness',
-          'Need for appropriate challenge'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Differentiated instruction',
-          'Acceleration options',
-          'Enrichment activities',
-          'Problem-based learning',
-          'Higher-order thinking tasks'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Advanced placement opportunities',
-          'Independent study options',
-          'Mentorship programs',
-          'Acceleration when appropriate',
-          'Extended learning projects'
-        ]
-      }
-    },
-    '2E': {
-      name: 'Twice-Exceptional',
-      color: 'bg-pink-100',
-      headerColor: 'bg-pink-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Combination of giftedness and disability',
-          'Complex learning profiles',
-          'Masking of abilities or challenges',
-          'Need for talent development',
-          'Unique social-emotional needs'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Strength-based approaches',
-          'Talent development focus',
-          'Compensation strategies',
-          'Dual differentiation',
-          'Balance of support and challenge'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Assistive technology access',
-          'Advanced learning opportunities',
-          'Support for areas of challenge',
-          'Social-emotional support',
-          'Strengths-based accommodations'
-        ]
-      }
-    },
-    'MS': {
-      name: 'Multiple & Severe Disabilities',
-      color: 'bg-orange-100',
-      headerColor: 'bg-orange-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Multiple impairments affecting development',
-          'Complex support needs',
-          'Impact on multiple life domains',
-          'Individualized approach required',
-          'Focus on functional skills'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Task analysis approach',
-          'Multi-sensory instruction',
-          'Collaborative team teaching',
-          'Life skills integration',
-          'Alternative communication methods'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Assistive technology solutions',
-          'Environmental adaptations',
-          'Physical accessibility support',
-          'Communication aids',
-          'Personal care assistance'
-        ]
-      }
-    },
-    'Cultural': {
-      name: 'Cultural Considerations',
-      color: 'bg-teal-100',
-      headerColor: 'bg-teal-500',
-      core: {
-        title: 'Core Understanding',
-        points: [
-          'Cultural competency importance',
-          'Diverse learning approaches',
-          'Language considerations',
-          'Family and community engagement',
-          'Cultural identity support'
-        ]
-      },
-      strategies: {
-        title: 'Teaching Strategies',
-        points: [
-          'Culturally responsive teaching',
-          'Inclusive curriculum design',
-          'Language support integration',
-          'Community connection building',
-          'Cultural perspective integration'
-        ]
-      },
-      accommodations: {
-        title: 'Accommodations & Support',
-        points: [
-          'Language support services',
-          'Cultural resource access',
-          'Family engagement support',
-          'Translation services',
-          'Cultural celebration opportunities'
-        ]
+
+      .section-button {
+        flex: 1 1 100%;
+        text-align: center;
       }
     }
-  };
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Special Education Support Dashboard</h1>
+      <p>Comprehensive guide for understanding and supporting diverse learning needs</p>
+    </div>
 
-  return (
-    <div className="w-full max-w-6xl mx-auto p-4">
-      <div className="bg-gray-100 p-4 mb-6 rounded-lg">
-        <h1 className="text-2xl font-bold mb-2">Special Education Support Dashboard</h1>
-        <p className="text-gray-600">Comprehensive guide for understanding and supporting diverse learning needs</p>
-      </div>
+    <!-- Categories -->
+    <div class="categories" id="categories">
+      <!-- Category buttons will be injected here -->
+    </div>
 
-      <div className="grid grid-cols-4 gap-3 mb-6">
-        {Object.entries(categories).map(([key, category]) => (
-          <button
-            key={key}
-            onClick={() => setActiveCategory(key)}
-            className={`p-3 rounded-lg text-white ${category.headerColor} 
-              ${activeCategory === key ? 'ring-2 ring-offset-2 ring-black' : ''}
-              transition-all duration-200`}
-          >
-            <span className="font-bold">{key}</span>
-            <span className="text-sm block">{category.name}</span>
-          </button>
-        ))}
-      </div>
+    <!-- Sections -->
+    <div class="sections" id="sections">
+      <!-- Section buttons will be injected here -->
+    </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        {['core', 'strategies', 'accommodations'].map((section) => (
-          <button
-            key={section}
-            onClick={() => setActiveSection(section)}
-            className={`p-3 rounded-lg bg-gray-200 transition-all duration-200
-              ${activeSection === section ? 'ring-2 ring-offset-2 ring-black bg-gray-300' : ''}`}
-          >
-            {categories[activeCategory][section].title}
-          </button>
-        ))}
-      </div>
+    <!-- Content Display -->
+    <div class="content" id="content">
+      <!-- Content will be injected here -->
+    </div>
 
-      <div className={`p-6 rounded-lg ${categories[activeCategory].color} transition-all duration-200`}>
-        <h2 className="text-xl font-bold mb-4">
-          {categories[activeCategory].name} - {categories[activeCategory][activeSection].title}
-        </h2>
-        <ul className="list-disc pl-6 space-y-3">
-          {categories[activeCategory][activeSection].points.map((point, idx) => (
-            <li key={idx} className="text-lg">{point}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-        <h3 className="text-lg font-bold mb-3">Universal Support Principles</h3>
-        <div className="grid grid-cols-4 gap-4">
-          <div className="p-3 bg-white rounded shadow">
-            <p className="font-semibold">Individualization</p>
-            <p className="text-sm">Tailored support for unique needs</p>
-          </div>
-          <div className="p-3 bg-white rounded shadow">
-            <p className="font-semibold">Evidence-Based Practice</p>
-            <p className="text-sm">Research-supported strategies</p>
-          </div>
-          <div className="p-3 bg-white rounded shadow">
-            <p className="font-semibold">Family Partnership</p>
-            <p className="text-sm">Collaborative support system</p>
-          </div>
-          <div className="p-3 bg-white rounded shadow">
-            <p className="font-semibold">Progress Monitoring</p>
-            <p className="text-sm">Regular assessment and adjustment</p>
-          </div>
-        </div>
+    <!-- Universal Support Principles -->
+    <div class="principles">
+      <h3>Universal Support Principles</h3>
+      <div class="principles-grid" id="principles">
+        <!-- Principles will be injected here -->
       </div>
     </div>
-  );
-}
+  </div>
+
+  <script>
+    // Data Structure
+    const categories = {
+      LD: {
+        name: 'Learning Disabilities',
+        color: '#bfdbfe', // Light Blue
+        headerColor: '#3b82f6', // Blue
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Specific difficulties in academic areas despite average/above-average intelligence',
+            'Challenges with processing, acquiring knowledge, and skill generalization',
+            'Various types including dyslexia, dysgraphia, and dyscalculia',
+            'Impacts academic performance and may affect self-esteem',
+            'Identification through RTI or comprehensive evaluation'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Direct instruction with structured, systematic approach',
+            'Learning strategies instruction for independence',
+            'Differentiated instruction across content, process, and product',
+            'Multi-sensory teaching approaches',
+            'Regular progress monitoring and assessment'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Technology',
+          points: [
+            'Extended time for tests and assignments',
+            'Text-to-speech and audiobook resources',
+            'Graphic organizers and visual aids',
+            'Word processing with spelling/grammar tools',
+            'Modified assignments and alternative formats'
+          ]
+        }
+      },
+      EBD: {
+        name: 'Emotional/Behavioral Disorders',
+        color: '#86efac', // Light Green
+        headerColor: '#22c55e', // Green
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Range of disorders including anxiety, mood, and conduct disorders',
+            'Impacts learning and social relationships significantly',
+            'Both externalizing and internalizing behaviors',
+            'Affects ability to build relationships and maintain emotional stability',
+            'Five key characteristics defined by IDEA'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Positive behavior support systems',
+            'De-escalation and crisis intervention techniques',
+            'Social skills instruction and modeling',
+            'Clear expectations and consistent routines',
+            'Token economy and reinforcement systems'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Quiet spaces for de-escalation',
+            'Behavioral intervention plans',
+            'Regular breaks and movement opportunities',
+            'Crisis planning and safety procedures',
+            'Social-emotional learning support'
+          ]
+        }
+      },
+      ADHD: {
+        name: 'ADHD',
+        color: '#fef08a', // Light Yellow
+        headerColor: '#f59e0b', // Yellow
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Three presentations: inattentive, hyperactive-impulsive, and combined',
+            'Impacts executive functioning and self-regulation',
+            'Affects attention, organization, and impulse control',
+            'Challenges with working memory and planning',
+            'Requires comprehensive assessment approach'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Breaking tasks into smaller steps',
+            'Using visual cues and reminders',
+            'Providing frequent breaks',
+            'Teaching organizational strategies',
+            'Implementing behavior management techniques'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Preferential seating arrangements',
+            'Extended time for tasks',
+            'Organizational tools and checklists',
+            'Reduced workload when appropriate',
+            'Technology for focus and organization'
+          ]
+        }
+      },
+      ASD: {
+        name: 'Autism Spectrum Disorder',
+        color: '#e9d5ff', // Light Purple
+        headerColor: '#8b5cf6', // Purple
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Persistent deficits in social communication and interaction',
+            'Restricted, repetitive patterns of behavior or interests',
+            'Sensory processing differences',
+            'Variable presentation and support needs',
+            'Early intervention importance'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Structured teaching approaches',
+            'Visual supports and schedules',
+            'Social stories and explicit social instruction',
+            'Applied Behavior Analysis techniques',
+            'Sensory-conscious environment'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Visual schedules and supports',
+            'Sensory breaks and tools',
+            'Communication aids and AAC',
+            'Social skills support',
+            'Environmental modifications'
+          ]
+        }
+      },
+      TBI: {
+        name: 'Traumatic Brain Injury',
+        color: '#fecaca', // Light Red
+        headerColor: '#ef4444', // Red
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Acquired injury affecting educational performance',
+            'Variable impact on cognitive, physical, and behavioral functioning',
+            'May affect memory, attention, and executive functions',
+            'Emotional regulation challenges',
+            'Individualized recovery patterns'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Cognitive rehabilitation strategies',
+            'Memory and attention supports',
+            'Executive function scaffolding',
+            'Behavioral support systems',
+            'Collaborative problem-solving'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Extended time and reduced workload',
+            'Memory aids and organizational tools',
+            'Rest breaks when needed',
+            'Environmental modifications',
+            'Assistive technology support'
+          ]
+        }
+      },
+      GT: {
+        name: 'Gifted and Talented',
+        color: '#c7d2fe', // Light Indigo
+        headerColor: '#6366f1', // Indigo
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'High abilities in one or more areas',
+            'Advanced learning capabilities',
+            'Complex interaction of nature and nurture',
+            'Varied manifestations of giftedness',
+            'Need for appropriate challenge'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Differentiated instruction',
+            'Acceleration options',
+            'Enrichment activities',
+            'Problem-based learning',
+            'Higher-order thinking tasks'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Advanced placement opportunities',
+            'Independent study options',
+            'Mentorship programs',
+            'Acceleration when appropriate',
+            'Extended learning projects'
+          ]
+        }
+      },
+      '2E': {
+        name: 'Twice-Exceptional',
+        color: '#fbcfe8', // Light Pink
+        headerColor: '#f472b6', // Pink
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Combination of giftedness and disability',
+            'Complex learning profiles',
+            'Masking of abilities or challenges',
+            'Need for talent development',
+            'Unique social-emotional needs'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Strength-based approaches',
+            'Talent development focus',
+            'Compensation strategies',
+            'Dual differentiation',
+            'Balance of support and challenge'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Assistive technology access',
+            'Advanced learning opportunities',
+            'Support for areas of challenge',
+            'Social-emotional support',
+            'Strengths-based accommodations'
+          ]
+        }
+      },
+      MS: {
+        name: 'Multiple & Severe Disabilities',
+        color: '#fcd34d', // Light Orange
+        headerColor: '#f97316', // Orange
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Multiple impairments affecting development',
+            'Complex support needs',
+            'Impact on multiple life domains',
+            'Individualized approach required',
+            'Focus on functional skills'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Task analysis approach',
+            'Multi-sensory instruction',
+            'Collaborative team teaching',
+            'Life skills integration',
+            'Alternative communication methods'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Assistive technology solutions',
+            'Environmental adaptations',
+            'Physical accessibility support',
+            'Communication aids',
+            'Personal care assistance'
+          ]
+        }
+      },
+      Cultural: {
+        name: 'Cultural Considerations',
+        color: '#a7f3d0', // Light Teal
+        headerColor: '#14b8a6', // Teal
+        core: {
+          title: 'Core Understanding',
+          points: [
+            'Cultural competency importance',
+            'Diverse learning approaches',
+            'Language considerations',
+            'Family and community engagement',
+            'Cultural identity support'
+          ]
+        },
+        strategies: {
+          title: 'Teaching Strategies',
+          points: [
+            'Culturally responsive teaching',
+            'Inclusive curriculum design',
+            'Language support integration',
+            'Community connection building',
+            'Cultural perspective integration'
+          ]
+        },
+        accommodations: {
+          title: 'Accommodations & Support',
+          points: [
+            'Language support services',
+            'Cultural resource access',
+            'Family engagement support',
+            'Translation services',
+            'Cultural celebration opportunities'
+          ]
+        }
+      }
+    };
+
+    const principles = [
+      { title: 'Individualization', description: 'Tailored support for unique needs' },
+      { title: 'Evidence-Based Practice', description: 'Research-supported strategies' },
+      { title: 'Family Partnership', description: 'Collaborative support system' },
+      { title: 'Progress Monitoring', description: 'Regular assessment and adjustment' }
+    ];
+
+    // State Variables
+    let activeCategory = 'LD';
+    let activeSection = 'core';
+
+    // DOM Elements
+    const categoriesContainer = document.getElementById('categories');
+    const sectionsContainer = document.getElementById('sections');
+    const contentContainer = document.getElementById('content');
+    const principlesContainer = document.getElementById('principles');
+
+    // Initialize Categories
+    function renderCategories() {
+      categoriesContainer.innerHTML = '';
+      for (const [key, category] of Object.entries(categories)) {
+        const button = document.createElement('button');
+        button.classList.add('category-button');
+        button.style.backgroundColor = category.headerColor;
+        if (key === activeCategory) button.classList.add('active');
+
+        button.innerHTML = `<span>${key}</span><small>${category.name}</small>`;
+        button.addEventListener('click', () => {
+          activeCategory = key;
+          activeSection = 'core';
+          renderCategories();
+          renderSections();
+          renderContent();
+        });
+
+        categoriesContainer.appendChild(button);
+      }
+    }
+
+    // Initialize Sections
+    function renderSections() {
+      sectionsContainer.innerHTML = '';
+      const currentCategory = categories[activeCategory];
+      const sections = ['core', 'strategies', 'accommodations'];
+
+      sections.forEach(sectionKey => {
+        const button = document.createElement('button');
+        button.classList.add('section-button');
+        if (sectionKey === activeSection) button.classList.add('active');
+
+        button.textContent = currentCategory[sectionKey].title;
+        button.addEventListener('click', () => {
+          activeSection = sectionKey;
+          renderSections();
+          renderContent();
+        });
+
+        sectionsContainer.appendChild(button);
+      });
+    }
+
+    // Initialize Content
+    function renderContent() {
+      const currentCategory = categories[activeCategory];
+      const currentSection = currentCategory[activeSection];
+
+      contentContainer.style.backgroundColor = currentCategory.color;
+
+      contentContainer.innerHTML = `
+        <h2>${currentCategory.name} - ${currentSection.title}</h2>
+        <ul>
+          ${currentSection.points.map(point => `<li>${point}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    // Initialize Principles
+    function renderPrinciples() {
+      principlesContainer.innerHTML = '';
+      principles.forEach(principle => {
+        const div = document.createElement('div');
+        div.classList.add('principle');
+        div.innerHTML = `
+          <strong>${principle.title}</strong>
+          <p>${principle.description}</p>
+        `;
+        principlesContainer.appendChild(div);
+      });
+    }
+
+    // Initial Render
+    function init() {
+      renderCategories();
+      renderSections();
+      renderContent();
+      renderPrinciples();
+    }
+
+    // Run the initialization on page load
+    window.onload = init;
+  </script>
+</body>
+</html>
