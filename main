@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Special Education Support Dashboard</title>
   <style>
-    /* Basic Reset */
     * {
       margin: 0;
       padding: 0;
@@ -17,21 +16,22 @@
       background-color: #f9fafb;
       color: #333;
       padding: 20px;
+      display: flex;
+      justify-content: center;
     }
 
     .container {
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 1000px;
+      width: 100%;
       padding: 20px;
+      text-align: center;
     }
 
-    /* Header */
     .header {
       background-color: #e5e7eb;
       padding: 20px;
       border-radius: 8px;
       margin-bottom: 30px;
-      text-align: center;
     }
 
     .header h1 {
@@ -43,12 +43,12 @@
       color: #6b7280;
     }
 
-    /* Categories */
     .categories {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 15px;
       margin-bottom: 30px;
+      justify-items: center;
     }
 
     .category-button {
@@ -58,10 +58,8 @@
       color: #fff;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
+      max-width: 150px;
     }
 
     .category-button:hover {
@@ -83,12 +81,12 @@
       margin-top: 5px;
     }
 
-    /* Sections */
     .sections {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 30px;
+      justify-content: center;
     }
 
     .section-button {
@@ -98,6 +96,7 @@
       background-color: #e5e7eb;
       cursor: pointer;
       transition: background-color 0.2s, box-shadow 0.2s;
+      font-size: 1em;
     }
 
     .section-button:hover {
@@ -111,23 +110,25 @@
       outline: 2px solid #000;
     }
 
-    /* Content Display */
     .content {
       background-color: #f3f4f6;
       padding: 20px;
       border-radius: 8px;
       min-height: 200px;
       transition: background-color 0.3s;
+      text-align: left;
     }
 
     .content h2 {
       font-size: 1.5em;
       margin-bottom: 15px;
+      text-align: center;
     }
 
     .content ul {
       list-style-type: disc;
-      padding-left: 20px;
+      padding-left: 40px;
+      text-align: left;
     }
 
     .content li {
@@ -135,7 +136,6 @@
       line-height: 1.6;
     }
 
-    /* Universal Support Principles */
     .principles {
       background-color: #e5e7eb;
       padding: 20px;
@@ -157,75 +157,70 @@
 
     .principle {
       background-color: #fff;
-      padding: 15px;
+      padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-size: 1em;
     }
 
     .principle p {
-      margin-top: 5px;
+      margin-top: 10px;
       color: #4b5563;
     }
 
-    /* Responsive Adjustments */
     @media (max-width: 600px) {
       .category-button {
         padding: 10px;
+        max-width: 120px;
       }
 
       .section-button {
         flex: 1 1 100%;
         text-align: center;
       }
+
+      .principle {
+        padding: 15px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
-      <h1>Special Education Support Dashboard</h1>
+      <h1>Dylan's SDI Product Superchart</h1>
       <p>Comprehensive guide for understanding and supporting diverse learning needs</p>
     </div>
 
-    <!-- Categories -->
     <div class="categories" id="categories">
-      <!-- Category buttons will be injected here -->
     </div>
 
-    <!-- Sections -->
     <div class="sections" id="sections">
-      <!-- Section buttons will be injected here -->
     </div>
 
-    <!-- Content Display -->
     <div class="content" id="content">
-      <!-- Content will be injected here -->
     </div>
 
-    <!-- Universal Support Principles -->
     <div class="principles">
       <h3>Universal Support Principles</h3>
       <div class="principles-grid" id="principles">
-        <!-- Principles will be injected here -->
       </div>
     </div>
   </div>
 
   <script>
-    // Data Structure
     const categories = {
       LD: {
         name: 'Learning Disabilities',
-        color: '#bfdbfe', // Light Blue
-        headerColor: '#3b82f6', // Blue
+        color: '#bfdbfe',
+        headerColor: '#3b82f6',
         core: {
           title: 'Core Understanding',
           points: [
             'Specific difficulties in academic areas despite average/above-average intelligence',
-            'Challenges with processing, acquiring knowledge, and skill generalization',
+            'Challenges with processing, learning, skill generalization',
             'Various types including dyslexia, dysgraphia, and dyscalculia',
-            'Impacts academic performance and may affect self-esteem',
+            'Impacts academic performance and may affect self-esteem ):',
             'Identification through RTI or comprehensive evaluation'
           ]
         },
@@ -252,8 +247,8 @@
       },
       EBD: {
         name: 'Emotional/Behavioral Disorders',
-        color: '#86efac', // Light Green
-        headerColor: '#22c55e', // Green
+        color: '#86efac',
+        headerColor: '#22c55e',
         core: {
           title: 'Core Understanding',
           points: [
@@ -287,8 +282,8 @@
       },
       ADHD: {
         name: 'ADHD',
-        color: '#fef08a', // Light Yellow
-        headerColor: '#f59e0b', // Yellow
+        color: '#fef08a',
+        headerColor: '#f59e0b',
         core: {
           title: 'Core Understanding',
           points: [
@@ -322,16 +317,16 @@
       },
       ASD: {
         name: 'Autism Spectrum Disorder',
-        color: '#e9d5ff', // Light Purple
-        headerColor: '#8b5cf6', // Purple
+        color: '#e9d5ff',
+        headerColor: '#8b5cf6',
         core: {
           title: 'Core Understanding',
           points: [
             'Persistent deficits in social communication and interaction',
-            'Restricted, repetitive patterns of behavior or interests',
+            'Restricted... repetitive patterns of behavior or interests',
             'Sensory processing differences',
             'Variable presentation and support needs',
-            'Early intervention importance'
+            'Early intervention!!'
           ]
         },
         strategies: {
@@ -349,7 +344,6 @@
           points: [
             'Visual schedules and supports',
             'Sensory breaks and tools',
-            'Communication aids and AAC',
             'Social skills support',
             'Environmental modifications'
           ]
@@ -357,16 +351,16 @@
       },
       TBI: {
         name: 'Traumatic Brain Injury',
-        color: '#fecaca', // Light Red
-        headerColor: '#ef4444', // Red
+        color: '#fecaca',
+        headerColor: '#ef4444',
         core: {
           title: 'Core Understanding',
           points: [
             'Acquired injury affecting educational performance',
             'Variable impact on cognitive, physical, and behavioral functioning',
-            'May affect memory, attention, and executive functions',
+            'May affect memoery, attention, and executive functions',
             'Emotional regulation challenges',
-            'Individualized recovery patterns'
+            'Individualized recovery paterns'
           ]
         },
         strategies: {
@@ -392,15 +386,13 @@
       },
       GT: {
         name: 'Gifted and Talented',
-        color: '#c7d2fe', // Light Indigo
-        headerColor: '#6366f1', // Indigo
+        color: '#c7d2fe',
+        headerColor: '#6366f1',
         core: {
           title: 'Core Understanding',
           points: [
             'High abilities in one or more areas',
             'Advanced learning capabilities',
-            'Complex interaction of nature and nurture',
-            'Varied manifestations of giftedness',
             'Need for appropriate challenge'
           ]
         },
@@ -410,7 +402,6 @@
             'Differentiated instruction',
             'Acceleration options',
             'Enrichment activities',
-            'Problem-based learning',
             'Higher-order thinking tasks'
           ]
         },
@@ -427,12 +418,11 @@
       },
       '2E': {
         name: 'Twice-Exceptional',
-        color: '#fbcfe8', // Light Pink
-        headerColor: '#f472b6', // Pink
+        color: '#fbcfe8',
+        headerColor: '#f472b6',
         core: {
           title: 'Core Understanding',
           points: [
-            'Combination of giftedness and disability',
             'Complex learning profiles',
             'Masking of abilities or challenges',
             'Need for talent development',
@@ -446,7 +436,6 @@
             'Talent development focus',
             'Compensation strategies',
             'Dual differentiation',
-            'Balance of support and challenge'
           ]
         },
         accommodations: {
@@ -462,8 +451,8 @@
       },
       MS: {
         name: 'Multiple & Severe Disabilities',
-        color: '#fcd34d', // Light Orange
-        headerColor: '#f97316', // Orange
+        color: '#fcd34d',
+        headerColor: '#f97316',
         core: {
           title: 'Core Understanding',
           points: [
@@ -497,8 +486,8 @@
       },
       Cultural: {
         name: 'Cultural Considerations',
-        color: '#a7f3d0', // Light Teal
-        headerColor: '#14b8a6', // Teal
+        color: '#a7f3d0',
+        headerColor: '#14b8a6',
         core: {
           title: 'Core Understanding',
           points: [
@@ -515,7 +504,6 @@
             'Culturally responsive teaching',
             'Inclusive curriculum design',
             'Language support integration',
-            'Community connection building',
             'Cultural perspective integration'
           ]
         },
@@ -526,7 +514,6 @@
             'Cultural resource access',
             'Family engagement support',
             'Translation services',
-            'Cultural celebration opportunities'
           ]
         }
       }
@@ -539,90 +526,77 @@
       { title: 'Progress Monitoring', description: 'Regular assessment and adjustment' }
     ];
 
-    // State Variables
     let activeCategory = 'LD';
     let activeSection = 'core';
 
-    // DOM Elements
     const categoriesContainer = document.getElementById('categories');
     const sectionsContainer = document.getElementById('sections');
     const contentContainer = document.getElementById('content');
     const principlesContainer = document.getElementById('principles');
 
-    // Initialize Categories
     function renderCategories() {
       categoriesContainer.innerHTML = '';
-      for (const [key, category] of Object.entries(categories)) {
+      for (const key in categories) {
+        const cat = categories[key];
         const button = document.createElement('button');
-        button.classList.add('category-button');
-        button.style.backgroundColor = category.headerColor;
-        if (key === activeCategory) button.classList.add('active');
-
-        button.innerHTML = `<span>${key}</span><small>${category.name}</small>`;
-        button.addEventListener('click', () => {
+        button.className = 'category-button';
+        button.style.backgroundColor = cat.headerColor;
+        if (key === activeCategory) {
+          button.classList.add('active');
+        }
+        button.innerHTML = `<span>${key}</span><small>${cat.name}</small>`;
+        button.onclick = function() {
           activeCategory = key;
           activeSection = 'core';
           renderCategories();
           renderSections();
           renderContent();
-        });
-
+        };
         categoriesContainer.appendChild(button);
       }
     }
 
-    // Initialize Sections
     function renderSections() {
       sectionsContainer.innerHTML = '';
-      const currentCategory = categories[activeCategory];
+      const currentCat = categories[activeCategory];
       const sections = ['core', 'strategies', 'accommodations'];
-
-      sections.forEach(sectionKey => {
+      sections.forEach(sec => {
         const button = document.createElement('button');
-        button.classList.add('section-button');
-        if (sectionKey === activeSection) button.classList.add('active');
-
-        button.textContent = currentCategory[sectionKey].title;
-        button.addEventListener('click', () => {
-          activeSection = sectionKey;
+        button.className = 'section-button';
+        if (sec === activeSection) {
+          button.classList.add('active');
+        }
+        button.textContent = currentCat[sec].title;
+        button.onclick = function() {
+          activeSection = sec;
           renderSections();
           renderContent();
-        });
-
+        };
         sectionsContainer.appendChild(button);
       });
     }
 
-    // Initialize Content
     function renderContent() {
-      const currentCategory = categories[activeCategory];
-      const currentSection = currentCategory[activeSection];
-
-      contentContainer.style.backgroundColor = currentCategory.color;
-
-      contentContainer.innerHTML = `
-        <h2>${currentCategory.name} - ${currentSection.title}</h2>
-        <ul>
-          ${currentSection.points.map(point => `<li>${point}</li>`).join('')}
-        </ul>
-      `;
+      const currentCat = categories[activeCategory];
+      const currentSec = currentCat[activeSection];
+      contentContainer.style.backgroundColor = currentCat.color;
+      let points = '';
+      currentSec.points.forEach(p => {
+        points += `<li>${p}</li>`;
+      });
+      contentContainer.innerHTML = `<h2>${currentCat.name} - ${currentSec.title}</h2><ul>${points}</ul>`;
     }
 
-    // Initialize Principles
     function renderPrinciples() {
       principlesContainer.innerHTML = '';
-      principles.forEach(principle => {
+      principles.forEach(princ => {
         const div = document.createElement('div');
-        div.classList.add('principle');
-        div.innerHTML = `
-          <strong>${principle.title}</strong>
-          <p>${principle.description}</p>
-        `;
+        div.className = 'principle';
+        div.innerHTML = `<strong>${princ.title}</strong><p>${princ.description}</p>`;
         principlesContainer.appendChild(div);
       });
     }
 
-    // Initial Render
     function init() {
       renderCategories();
       renderSections();
@@ -630,7 +604,6 @@
       renderPrinciples();
     }
 
-    // Run the initialization on page load
     window.onload = init;
   </script>
 </body>
